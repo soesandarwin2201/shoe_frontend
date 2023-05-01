@@ -27,5 +27,30 @@ const LoginSlice = createSlice({
           success: false,
           error: '',
      },
-     
-})
+     extraReducers: (builder) => {
+          builder.addCase(userLogin.pending, (state) => ({
+               ...state,
+               isLoading: true,
+               error : ''
+          }));
+
+          builder.addCase(userLogin.fulfilled, (state, action) => {
+               localStorage.setItem('token', action.payload.data.token);
+               return {
+                   ...state,
+                   isLoading: false,
+                   success: true,
+                   message: action.payload.data.message,
+                   token: action.payload.data.token,
+               };
+           });
+
+          builder.addCase(userLogin.rejected,(state, action) => ({
+               ...state,
+               isLoading: false,
+               error: action.payload,
+          }));
+     }
+});
+
+export default LoginSlice.reducer;

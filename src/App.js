@@ -1,6 +1,8 @@
+import Singup from "./components/singup/singup";
+
 function App() {
   return (
-    <h1>this is my shoe frontend</h1>
+    <Singup />
   );
 }
 
