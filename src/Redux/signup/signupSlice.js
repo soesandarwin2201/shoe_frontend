@@ -26,6 +26,7 @@ const signupSlice = createSlice({
           succes: false,
           error: '',
           message: '',
+          token,
      },
      reducers: {
           reset: (state) => ({
@@ -43,14 +44,16 @@ const signupSlice = createSlice({
                error : ''
           }));
 
-          builder.addCase(signupUser.fulfilled, (state,action)=> 
+          builder.addCase(signupUser.fulfilled, (state, action) => {
                localStorage.setItem('token', action.payload.data.token);
-               {
-                ...state,
-               isLoading: false,
-               succes: true,
-               message: action.payload.data.message,
-          });
+               return {
+                   ...state,
+                   isLoading: false,
+                   success: true,
+                   message: action.payload.data.message,
+                   token: action.payload.data.token,
+               };
+           });
 
           builder.addCase(signupUser.rejected,(state, action) => ({
                ...state,
